@@ -25,7 +25,7 @@ export default async function getApi (endpoint, params) {
   } else if (endpointLC === 'search') { // Search
     url += 'https://api.spotify.com/v1/search?';
     url += `q=${params.query}`;
-    url += '&type=album,artist,playlist,track,show,episode';
+    url += '&type=track,artist,album,playlist,show,episode';
     url += '&market=from_token'
     url += '&limit=4';
   }

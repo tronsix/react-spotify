@@ -7,7 +7,7 @@ import SearchContent from './SearchContent'
 const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
-    padding: (104, 148),
+    padding: theme.spacing(15, 5),
     background: "linear-gradient(0deg, rgba(24,24,24,1) 0%, rgba(24,24,24,1) 75%, rgba(60,60,60,1) 100%)",
     minHeight: window.innerHeight,
     height: 'fit-content',
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Content() {
   const classes = useStyles();
-  const {contentState} = React.useContext(ContentContext);
+  const { contentState } = React.useContext(ContentContext);
   const main = React.useRef(null);
   const data = contentState.data;
   const response = contentState.response;
