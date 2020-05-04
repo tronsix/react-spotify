@@ -18,6 +18,7 @@ const initialContentState = {
   data: null,
   response: null,
   endpoint: null,
+  content: {}
 };
 
 const reducer = (state, action) => {
@@ -25,16 +26,33 @@ const reducer = (state, action) => {
     case 'fetching':
       return state;
     case 'success':
+      let content = {
+        data: action.payload.data,
+        response: {
+          ok: action.payload.response.ok,
+          status: action.payload.response.status
+        },
+        endpoint: action.payload.endpoint
+      }
+      setItem('content', JSON.stringify(content));
       return {
+        content: content,
         data: action.payload.data,
         response: action.payload.response,
-        endpoint: action.payload.endpoint,
+        endpoint: action.payload.endpoint
       };
     case 'error':
       return {
         data: action.payload.data,
         response: action.payload.response
       };
+    case 'reload':
+      return {
+        content: action.payload.content,
+        data: action.payload.data,
+        response: action.payload.response,
+        endpoint: action.payload.endpoint
+      }
     default:
       return state;
   }
@@ -46,7 +64,23 @@ export default function Home(props) {
   const authParams = React.useContext(ConfigContext);
   const stateKey = authParams.stateKey;
   const [contentState, contentDispatch] = React.useReducer(reducer, initialContentState);
-  
+
+  React.useEffect(() => {
+    // if session data !== state data then set state to session
+    if (JSON.parse(getItem('content'))){
+      let content = JSON.parse(getItem('content'));
+      contentDispatch({
+        type: 'reload',
+        payload: { 
+          content: content,
+          data: content.data,
+          response: content.response,
+          endpoint: content.endpoint
+        } 
+      })
+    }
+  },[contentDispatch])
+
   React.useEffect(() => {
     
     if (hash.access_token) { // if hash contains token on home
