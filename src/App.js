@@ -6,9 +6,11 @@ import {
   useHistory
 } from 'react-router-dom';
 import { Home, Login } from './pages'
-import authParams from './config';
 
-export const ConfigContext = React.createContext();
+require('dotenv').config();
+
+console.log(process.env);
+
 export const AppContext = React.createContext();
 
 const initialState = {
@@ -79,12 +81,10 @@ export default function App() {
 
   return (
       <Switch>
-      <ConfigContext.Provider value={authParams}>
         <AppContext.Provider value={{state, dispatch}}>
           <Route exact path='/'  render={ () => <Home history={history}/> }></Route>
           <Route exact path='/login' render={ () => <Login history={history} /> }></Route>
         </AppContext.Provider>
-      </ConfigContext.Provider>
       </Switch>
   );
 }

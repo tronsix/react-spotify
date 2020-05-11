@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { ConfigContext, AppContext } from '../App';
+import { AppContext } from '../App';
 import { hash, getItem, setItem } from '../functions/utils'
 import { getLogin } from '../functions/getApi';
 import { MyAppBar as AppBar } from '../components/Home/AppBar';
@@ -61,8 +61,7 @@ const reducer = (state, action) => {
 export default function Home(props) {
   const classes = useStyles();
   const { dispatch } = React.useContext(AppContext);
-  const authParams = React.useContext(ConfigContext);
-  const stateKey = authParams.stateKey;
+  const stateKey = process.env.REACT_APP_STATE_KEY;
   const [contentState, contentDispatch] = React.useReducer(reducer, initialContentState);
 
   React.useEffect(() => {
